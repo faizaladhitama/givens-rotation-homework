@@ -19,7 +19,19 @@ function [Q,R,P] = givensRotation(A)
         end
         for i = m:-1:(j+1)
           G = eye(m);
-          [c,s] = csRotation(A(i-1,j),A(i,j));
+          a = A(i-1,j);
+          b = A(i,j);
+          if a==0 && abs(b) > 0
+              s = sign(b);
+              c = 0;
+          elseif b==0 && abs(a) >0
+              c = sign(a);
+              s = 0;
+          else
+              r = sqrt(a^2+b^2);
+              c = a/r;
+              s = b/r;
+          end
           G([i-1, i],[i-1, i]) = [c s; -s c];
           for k=j:n
               temp = A;
