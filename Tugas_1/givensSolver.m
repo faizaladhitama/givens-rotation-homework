@@ -1,6 +1,8 @@
 function [x] = givensSolver(A,b)
     tic
     [Q,R,P] = givensRotation(A);
+    R
+    toc
     [~,n]=size(R);
     x=zeros(n,1);
     bt = transpose(Q)*b;
@@ -13,7 +15,6 @@ function [x] = givensSolver(A,b)
         x(i)=sum/R(i,i);
     end
     x = P*x;
-    toc
     abs(norm(A*x-b))
     abs(norm(A*x-b))/abs(norm(b))
 end

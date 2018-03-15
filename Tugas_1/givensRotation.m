@@ -3,6 +3,7 @@ function [Q,R,P] = givensRotation(A)
     Q = eye(m);
     P = eye(n);
     for j = 1:n
+        %{
         index_max=j;
         for l=j:n-1
             if norm(A(:,l))>norm(A(:,index_max))
@@ -17,6 +18,7 @@ function [Q,R,P] = givensRotation(A)
             P(:,j)=P(:,index_max);
             P(:,index_max)=temp_p;
         end
+        %}
         for i = m:-1:(j+1)
           G = eye(m);
           a = A(i-1,j);
@@ -28,6 +30,19 @@ function [Q,R,P] = givensRotation(A)
               c = sign(a);
               s = 0;
           else
+              %{
+              if abs(a) > abs(b)
+                t = b/a;
+                u = sign(a)*abs(sqrt(1+t*t));
+                c = 1/u;
+                s = c*t;
+              elseif abs(b) > abs(a)
+                t = a/b;
+                u = sign(b)*abs(sqrt(1+t*t));
+                s = 1/u;
+                c = s*t;
+              end
+              %}
               r = sqrt(a^2+b^2);
               c = a/r;
               s = b/r;
